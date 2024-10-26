@@ -61,6 +61,7 @@ def fit_and_score(features, features_bin, times, censoring,
     if features_names is None:
         features_names = [str(j) for j in range(features.shape[1])]
     X_train, X_test = features_bin[idx_train], features_bin[idx_test]
+    X_train_M = X_train.toaray()  
     Y_train, Y_test = times[idx_train], times[idx_test]
     delta_train, delta_test = censoring[idx_train], censoring[idx_test]
 
@@ -71,7 +72,7 @@ def fit_and_score(features, features_bin, times, censoring,
                             warm_start=True)
     learner._solver_obj.linesearch = False
     learner.C = C
-    learner.fit(X_train, Y_train, delta_train)
+    learner.fit(X_train_M, Y_train, delta_train)
     coeffs = learner.coeffs
 
     cut_points_estimates = {}
