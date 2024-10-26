@@ -101,6 +101,7 @@ def fit_and_score(features, features_bin, times, censoring,
     blocks_start = binarizer.blocks_start
     blocks_length = binarizer.blocks_length
     X_bin_train = binarized_features[idx_train]
+    X_bin_train_M = X_bin_train.toaray()                
     X_bin_test = binarized_features[idx_test]
     learner_ = CoxRegression(penalty='binarsity', tol=1e-5,
                              verbose=False, max_iter=100, step=0.3,
@@ -108,7 +109,7 @@ def fit_and_score(features, features_bin, times, censoring,
                              blocks_length=blocks_length,
                              warm_start=True, C=1e10)
     learner_._solver_obj.linesearch = False
-    learner_.fit(X_bin_train, Y_train, delta_train)
+    learner_.fit(X_bin_train_M, Y_train, delta_train)
     score = learner_.score(X_bin_test, Y_test, delta_test)
 
     if validation_data is not None:
